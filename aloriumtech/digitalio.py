@@ -195,6 +195,7 @@ class DigitalInOut:
       else:
         pass
 
+    # DriveMode is not available on Evo, simply override and cause an error
     # drive_mode: DriveMode = ...
     # """The pin drive mode. One of:
 
@@ -202,13 +203,9 @@ class DigitalInOut:
     # - `digitalio.DriveMode.OPEN_DRAIN`"""
     @value.setter
     def drive_mode(self, drive_mode: DriveMode = DriveMode.PUSH_PULL):
-      if self._direction == Direction.INPUT:
-        raise AttributeError("Drive mode not used when direction is input.")
-      if self._pin != None:
-        self._pin.drive_mode = drive_mode
-      else:
-        raise TypeError("FPGA pins do not allow for DriveMode functionalityal.")
+      raise TypeError("FPGA pins do not allow for DriveMode functionalityal.")
 
+    # Pull is not available on Evo, simply override and cause an error
     # pull: Optional[Pull] = ...
     # """The pin pull direction. One of:
 
@@ -219,10 +216,5 @@ class DigitalInOut:
     # :raises AttributeError: if `direction` is :py:data:`~digitalio.Direction.OUTPUT`."""
     @value.setter
     def pull(self, pull: Pull = Pull.UP):
-      if self._direction == Direction.OUTPUT:
-        raise AttributeError("Pull not used when direction is output.")
-      if self._pin != None:
-        self._pin.pull = pull
-      else:
-        raise TypeError("FPGA pins do not allow for Pull functionality.")
+      raise TypeError("FPGA pins do not allow for Pull functionality.")
 
