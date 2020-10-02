@@ -62,6 +62,13 @@ class DigitalInOut:
           addr = _evo.D2F_ENCLR_ADDR
           _evo.send_evo_write_trans(addr, self._buffer)
 
+    def soft_deinit(self) -> None:
+        """Release the SAMD pin control, but do not reset the FPGA. Useful for configuring a pin for use with an existing library."""
+        if self._pin == None:
+          pass
+        else:
+          self._pin.deinit()
+
     def __enter__(self,) -> DigitalInOut:
         """No-op used by Context Managers."""
         pass
