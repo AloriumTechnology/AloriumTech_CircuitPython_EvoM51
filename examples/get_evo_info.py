@@ -44,16 +44,11 @@ def read_reg(info_addr):
     result = bytearray(4)
     
     # Request SVN from Info register
-    i2c1.writeto(0x08, bytes([0x20, 0x01, info_addr, 0x00, 0x00, 0x00]), stop=False)
+    i2c1.writeto(0x08, bytes([0x20, 0x01, info_addr, 0x00, 0x00, 0x00]))
 
     # The FPGA will insert data of SVN (0x21) into Info register
-    # Request data from Info register
-    i2c1.writeto(0x08, bytes([0x20, 0x01]), stop=False)
-
-    # Read result returned from FPGA I2C
-    i2c1.readfrom_into(0x08, result)
-
-
+    # Request data from Info register, then read result returned from FPGA I2C
+    i2c1.writeto_then_readfrom(0x08, bytes([0x20, 0x01]), result)
 
     return result
 
